@@ -1,0 +1,55 @@
+<html style="background-color: black;">
+  <head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+  </head>
+  <style>
+    .mirror {
+        display: block;
+        -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
+        -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
+        -o-transform: matrix(-1, 0, 0, 1, 0, 0);
+        font-size: 100px;
+        color: white;
+    }
+    body {
+      overflow: hidden;
+    }
+  </style>
+  <body>
+    <marquee behavior="scroll" direction="up" scrollamout="10" class="mirror" id="text"></marquee>
+  </body>
+</html>
+
+<script src="javas/socket.io.js"></script>
+<script src="javas/jquery-3.5.1.js"></script>
+<script>
+  var socket = io.connect('http://192.168.20.103:8000/');
+
+  socket.on('text', function(text){
+    $('#text').text(text);
+    window.scrollTo(0,document.body.scrollHeight);
+  });
+  socket.on('start', function(){
+    document.getElementById('text').start();
+  });
+  socket.on('stop', function() {
+    document.getElementById('text').stop();
+  });
+  
+  var defaltspeed = 10;
+  function changespeed(speed){
+    var texto = document.getElementById('text');
+    texto.setAttribute("scrollamount", defaltspeed);
+    console.log(defaltspeed);
+  }
+  socket.on('mais', function() {
+    defaltspeed++;
+    changespeed(defaltspeed);
+  });  
+  socket.on('menos', function() {
+    defaltspeed--;
+    changespeed(defaltspeed);
+  });
+  
+</script>

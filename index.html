@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+  </head>
+  <style>
+    .button {
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+    }
+    .green {
+      background-color: #dff0d8;
+      border-color: #d6e9c6;
+      color: #3c763d;
+    }
+    .blue {
+      background-color: #d9edf7;
+      border-color: #bce8f1;
+      color: #31708f;
+    }
+    .red {
+      background-color: #f2dede;
+      border-color: #ebccd1;
+      color: #a94442;
+    }
+    .textarea {
+      height: 700px;
+      width: 50%;
+    }
+  </style>
+  <body>
+    <div>
+      <textarea class="textarea" id="text"></textarea>
+    </div>
+    <div>
+      <button class="button green" id="start">INICIAR</button> 
+      <button class="button red" id="stop">PARAR</button>
+      <button class="button blue" id="enviar">ENVIAR TEXTO</button>
+      <button class="button" id="mais">MAIS</button>
+      <button class="button" id="menos">MENOS</button>
+    </div>
+  </body>
+</html>
+<script src="javas/socket.io.js"></script>
+<script src="javas/jquery-3.5.1.js"></script>
+<script>
+  var socket = io.connect('http://192.168.20.103:8000/');
+  $("#enviar").click(function(e){
+    socket.emit('text',$('#text').val());
+  });
+  $("#start").click(function(e){
+    socket.emit('start');
+  });
+  $("#stop").click(function(e){
+    socket.emit('stop');
+  });
+  $("#mais").click(function(e){
+    socket.emit('mais');
+  });
+  $("#menos").click(function(e){
+    socket.emit('menos');
+  });
+</script>
